@@ -1,37 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Configuration>
-	<Feature Name="Toast" Enabled="True" /> <!-- Enables or disables the entire toast notification -->
+	<Feature Name="Toast" Enabled="False" /> <!-- Enables or disables the entire toast notification -->
 	<Feature Name="UpgradeOS" Enabled="False" />	<!-- Specifies if the toast is used for OS upgrades. If set to True, the targetOS build is taking into account -->
 	<Feature Name="PendingRebootUptime" Enabled="True" />	<!-- Enables the toast for reminding users of restarting their device if it exceeds the uptime defined in MaxUptimeDays -->
 	<Feature Name="PendingRebootCheck" Enabled="False" />	<!-- Enables the toast for reminding users of pending reboots found in registry/WMI. Might not suit ConfigMgr all too well, as if a pending reboot is found, further deployments won't run -->
 	<Feature Name="ADPasswordExpiration" Enabled="False" />	<!-- Enables the toast for reminding users of expiring Active Directory passwords -->
-	<Option Name="TargetOS" Build="19041" />	<!-- The actual build number of the targeted OS. 19041 = 2004 | 18363 = 1909 | 18362 = 1903 | 17763 = 1809. This option has no effect if OSUpgrade is set to False -->
-	<Option Name="MaxUptimeDays" Value="-6" />	<!-- When using the toast for checking for pending reboots. A reboot is considered pending if computer uptime exceeds the value set here -->
+	<Option Name="LogoImageName" Value="Toast_ITLogo.png" />  <!-- File name of the image shown as logo in the toast notoification  -->
+	<Option Name="HeroImageName" Value="ToastHero.png" /> <!-- File name of the image shown in the top of the toast notification -->	
+	<Option Name="CustomNotificationApp" Enabled="True" Value="Desktop Administration"/>	<!-- The app in Windows doing the actual notification - can't be both SoftwareCenter and Powershell -->
+	<Option Name="TargetOS" Build="19044" />	<!-- The actual build number of the targeted OS. 19044 = 21H2 | 18363 = 1909 | 18362 = 1903 | 17763 = 1809. This option has no effect if OSUpgrade is set to False -->
+	<Option Name="MaxUptimeDays" Value="-1" />	<!-- When using the toast for checking for pending reboots. A reboot is considered pending if computer uptime exceeds the value set here -->
+	<Option Name="ForceRebootAfterMaxUptimeDaysEnabled" Enabled="True" />	<!-- Enables forced reboots if the computer exceeds a maximum threshold, as opposed to nagging -->
+	<Option Name="ForceRebootAfterMaxUptimeDays" Value="21" />	<!-- If computer uptime exceeds this number, a reboot will be force-scheduled for that night -->
+	<Option Name="AfterhoursDeadline" Value="01:00" />	 <!-- Sets the afterhours deadline for delaying the reboot. Must be in 24-hour format, and ActionButton2 must be enabled. If the hour is between 00 and 06, it will schedule for TOMORROW -->
+	<Option Name="AfterhoursRestrictToDays" Enabled="True" Value="Saturday,Sunday" />	  <!-- Restricts afterhours forced reboot only to specific day(s).  Must be comma-delimited full day-of-week names (e.g. "Monday, Tuesday") -->
 	<Option Name="PendingRebootUptimeText" Enabled="True" />	<!-- Adds an additional group to the toast with text about the uptime of the computer -->
 	<Option Name="PendingRebootCheckText" Enabled="False" />	<!-- Adds an additional group to the toast with text -->
 	<Option Name="ADPasswordExpirationText" Enabled="False" />	<!-- Adds an additional group to the toast with text -->
-	<Option Name="ADPasswordExpirationDays" Value="90" />	<!-- How many days in advance shall the toast start reminding the users  -->
-	<Option Name="RunPackageID" Enabled="False" Value="KR100907" /> <!-- Will enable the toast to run any ConfigMgr PackageID through a custom protocol -->
-	<Option Name="RunApplicationID" Enabled="False" Value="ScopeId_A9117680-D054-482B-BC97-532E6CBD0E6B/Application_fd55f35c-4e34-4490-a3ec-ee0b79233ec6" /> <!-- Will enable the toast to run any ConfigMgr ApplicationID through a custom protocol -->
-	<Option Name="RunUpdateID" Enabled="False" Value="4561600" /> <!-- Will enable the toast to run any ConfigMgr Update ID through a custom protocol. Configure the value to the relevant KB-article ID -->
-	<Option Name="RunUpdateTitle" Enabled="False" Value="" /> <!-- Will enable the toast to run any ConfigMgr Update Name through a custom protocol -->
+	<Option Name="ADPasswordExpirationDays" Value="14" />	<!-- How many days in advance shall the toast start reminding the users  -->
+	<Option Name="RunPackageID" Enabled="False" Value="Placeholder" /> <!-- Will enable the toast to run any ConfigMgr PackageID through a custom protocol -->
+	<Option Name="RunApplicationID" Enabled="False" Value="Placeholder" /> <!-- Will enable the toast to run any ConfigMgr ApplicationID through a custom protocol -->
+	<Option Name="RunUpdateID" Enabled="False" Value="Placeholder" /> <!-- Will enable the toast to run any ConfigMgr Update ID through a custom protocol. Configure the value to the relevant MECM 'Article ID'-->
+	<Option Name="RunUpdateTitle" Enabled="False" Value="Placeholder" /> <!-- Will enable the toast to run any ConfigMgr Update Name through a custom protocol -->
 	<Option Name="Deadline" Enabled="False" Value="30-09-2019 08:00" />	<!-- Adds an additional group to the toast with text about the deadline of the OSUpgrade -->
-	<Option Name="DynamicDeadline" Enabled="False" Value="KR1008C8" />	<!-- Adds an additional group to the toast with text about the deadline of the OSUpgrade. This will retrieve the deadline of the IPU from WMI -->
+	<Option Name="DynamicDeadline" Enabled="False" Value="Placeholder" />	<!-- Adds an additional ogroup to the toast with text about the deadline of the OSUpgrade. This will retrieve the deadline of the IPU from WMI -->
 	<Option Name="CreateScriptsAndProtocols" Enabled="True" /> <!-- Automatically create the needed custom scripts and protocols. This removes the need to do scripts and protocols outside of the script -->
-	<Option Name="LimitToastToRunEveryMinutes" Enabled="False" Value="5" /> <!-- Prevents the toast notification from being displayed again within the defined value (in minutes) -->
-	<Option Name="CustomNotificationApp" Enabled="True" Value="iMAB.DK NOTIFICATIONS"/>	<!-- The app in Windows doing the actual notification - can't be both SoftwareCenter and Powershell -->
+	<Option Name="LimitToastToRunEveryMinutes" Enabled="False" Value="15" /> <!-- Prevents the toast notification from being displayed again within the defined value (in minutes) -->
+	<Option Name="NoToastBeforeTime" Enabled="True" Value="06:00" /> <!-- Prevents the toast notification from being displayed before the indicated hour (must be 24 hr time and :00 minutes) -->
+	<Option Name="NoToastAfterTime" Enabled="True" Value="18:00" /> <!-- Prevents the toast notification from being displayed aftere the indicated hour (must be 24 hr time and :00 minutes) -->
 	<Option Name="UseSoftwareCenterApp" Enabled="False" />	<!-- The app in Windows doing the actual notification - can't be both SoftwareCenter and Powershell -->
 	<Option Name="UsePowershellApp" Enabled="False" />	<!-- The app in Windows doing the actual notification - can't be both SoftwareCenter and Powershell -->
 	<Option Name="CustomAudio" Enabled="False" />	<!-- Enable or disable a custom speak scenario, where the text will be read out aloud -->
-	<Option Name="LogoImageName" Value="ToastLogoImageDefault.jpg" />  <!-- File name of the image shown as logo in the toast notoification  -->
-	<Option Name="HeroImageName" Value="ToastHeroImageDefault.jpg" /> <!-- File name of the image shown in the top of the toast notification -->	
-	<Option Name="ActionButton1" Enabled="False" />	<!-- Enables or disables the action button. -->
-	<Option Name="ActionButton2" Enabled="True" />	<!-- Enables or disables the action button. -->
+	<Option Name="ActionButton1" Enabled="True" />	<!-- Enables or disables the action button. -->
+	<Option Name="ActionButton2" Enabled="False" />	<!-- Enables or disables the action button. -->
 	<Option Name="DismissButton" Enabled="True" />	<!-- Enables or disables the dismiss button. -->
 	<Option Name="SnoozeButton" Enabled="False" /> <!-- Enabling this option will always enable action button and dismiss button -->
-	<Option Name="Scenario" Type="reminder" />	<!-- Possible values are: reminder | short | long | alarm -->
+	<Option Name="Scenario" Type="reminder" />	<!-- Possible values are: reminder | short | long -->
 	<Option Name="Action1" Value="ToastReboot:" />	<!-- Action taken when using the Action button. Can be any protocol in Windows -->
-	<Option Name="Action2" Value="https://imab.dk" />	<!-- Action taken when using the Action button. Can be any protocol in Windows -->
+	<Option Name="Action2" Value="" />	<!-- Action taken when using the Action button. Can be any protocol in Windows -->
 	<Text Option="GreetGivenName" Enabled="True" />	<!-- Displays the toast with a personal greeting using the users given name retrieved from AD. Will try retrieval from WMI of no local AD -->
 	<Text Option="MultiLanguageSupport" Enabled="False" /> <!-- Enable support for multiple languages. If set to True, the toast notification will look for the users language culture within the config file -->
 	<en-US> <!-- Default fallback language. This language will be used if MultiLanguageSupport is set to False or if no matching language is found -->
@@ -39,15 +45,15 @@
         <Text Name="PendingRebootCheckText">Reason: Pending reboots was found in registry or WMI.</Text> <!-- Text used if the PendingRebootUptimeText Option is enabled -->
         <Text Name="ADPasswordExpirationText">Your password will expire on: </Text> <!-- Text used if the ADPasswordExpirationText Option is enabled -->
         <Text Name="CustomAudioTextToSpeech">Hey you - wake up. Your computer needs to restart. Do it now.</Text> <!-- Text to speech used if the CustomAudioTextToSpeech Option is enabled -->
-        <Text Name="ActionButton1">Restart now</Text>  <!-- Text on the ActionButton if enabled -->
+        <Text Name="ActionButton1">Restart Now</Text>  <!-- Text on the ActionButton if enabled -->
 		<Text Name="ActionButton2">Learn More</Text>  <!-- Text on the ActionButton if enabled -->
         <Text Name="DismissButton">Dismiss</Text> <!-- Text on the DismissButton if enabled -->
         <Text Name="SnoozeButton">Snooze</Text> <!-- Text on the SnoozeButton if enabled -->
-        <Text Name="AttributionText">www.imab.dk</Text>
+        <Text Name="AttributionText">IT Notification</Text>
         <Text Name="HeaderText">Helpdesk kindly reminds you...</Text>
         <Text Name="TitleText">Your computer needs to restart!</Text>
-        <Text Name="BodyText1">For security and stability reasons, we kindly ask you to restart your computer as soon as possible.</Text>
-        <Text Name="BodyText2">Restarting your computer on a regular basis ensures a secure and stable Windows. Thank you in advance.</Text>
+        <Text Name="BodyText1">Restarting your computer on a regular basis ensures a secure and stable Windows. Thank you in advance.</Text>
+        <Text Name="BodyText2">If you select 'Restart Tonight', your computer will restart after business hours.</Text>
         <Text Name="SnoozeText">Click snooze to be reminded again in:</Text>
         <Text Name="DeadlineText">Your deadline is:</Text>
         <Text Name="GreetMorningText">Good morning</Text>
